@@ -1,3 +1,102 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap");
+html,
+body,
+p,
+ol,
+ul,
+li,
+dl,
+dt,
+dd,
+blockquote,
+figure,
+fieldset,
+legend,
+textarea,
+pre,
+iframe,
+hr,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 100%;
+  font-weight: normal;
+}
+
+ul {
+  list-style: none;
+}
+
+button,
+input,
+select,
+textarea {
+  margin: 0;
+}
+
+html {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: inherit;
+          box-sizing: inherit;
+}
+
+img,
+video {
+  height: auto;
+  max-width: 100%;
+}
+
+iframe {
+  border: 0;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+td,
+th {
+  padding: 0;
+}
+
+td:not([align]),
+th:not([align]) {
+  text-align: left;
+}
+
+body,
+html {
+  font-size: 10px;
+}
+
+body {
+  position: relative;
+}
+
+* {
+  font-family: 'Montserrat', sans-serif;
+}
+
 .main {
   height: 100vh;
   display: -webkit-box;
@@ -9,4 +108,284 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  background-color: #EBEDF0;
+  z-index: 1;
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+}
+
+.form {
+  max-width: 56rem;
+  background-color: #fff;
+  border-radius: 1.6rem;
+  overflow: hidden;
+  margin: 0 auto;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-top: 10vh;
+}
+
+.button {
+  color: #fff;
+  background-color: #53C6D1;
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 2rem;
+  padding: .8rem 1.2rem;
+  border: none;
+  border-radius: .6rem;
+  cursor: pointer;
+  -webkit-transition: .2s ease-in-out;
+  transition: .2s ease-in-out;
+}
+
+.button:hover {
+  background-color: #33b2be;
+}
+
+.button:active {
+  opacity: .8;
+}
+
+.form-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 1.6rem 2rem 1.6rem 3.2rem;
+  position: relative;
+}
+
+.form-header:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: .1rem;
+  width: 100%;
+  height: .1rem;
+  background-color: #EAECF0;
+}
+
+.form-header__title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 2.5rem;
+  color: #3C3C3C;
+}
+
+.form-header__close {
+  font-size: 2rem;
+  color: #7F899E;
+  cursor: pointer;
+}
+
+.fb {
+  padding: 2.4rem 3.2rem;
+}
+
+.fb__info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 3.2rem;
+}
+
+.fb__preview-img {
+  border-radius: .6rem;
+  overflow: hidden;
+  width: 10.2rem;
+  margin-top: -0.1rem;
+}
+
+.fb__description {
+  padding-left: 2rem;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+}
+
+.fb__work-name {
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 2.4rem;
+  margin-bottom: 0.3rem;
+  color: #3C3C3C;
+}
+
+.fb__author-name {
+  font-size: 1.2rem;
+  font-weight: 400;
+  line-height: 1.6rem;
+  color: #50586A;
+}
+
+.fb__rating {
+  display: -ms-grid;
+  display: grid;
+      grid-template-areas: "stars__item stars__item";
+}
+
+.stars__name {
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 2rem;
+  color: #3C3C3C;
+}
+
+.list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
+  max-width: 17rem;
+  margin: 0 -2.9rem 1.6rem -0.1rem;
+}
+
+.list__star {
+  font-size: 35px;
+  color: #EAECF0;
+  cursor: pointer;
+  margin: -3px 0 0 0;
+  -webkit-transition: color .2s ease-in-out;
+  transition: color .2s ease-in-out;
+}
+
+.list__star:hover,
+.list__star:hover ~ .list__star {
+  color: #53C6D1;
+}
+
+.list[data-total-value="1"] .list__star:nth-child(n + 5),
+.list[data-total-value="2"] .list__star:nth-child(n + 4),
+.list[data-total-value="3"] .list__star:nth-child(n + 3),
+.list[data-total-value="4"] .list__star:nth-child(n + 2),
+.list[data-total-value="5"] .list__star:nth-child(n + 1) {
+  color: #53C6D1;
+}
+
+.list__star--checked {
+  color: #53C6D1;
+}
+
+.fb__comment {
+  width: 100%;
+  height: 10rem;
+  font-size: 1.6rem;
+  line-height: 2.4rem;
+  padding: 1.2rem;
+  margin-top: 0.8rem;
+  resize: none;
+  background-color: #fafafa;
+  border: .1rem solid #EAECF0;
+  border-radius: .6rem;
+}
+
+.fb__comment::-webkit-input-placeholder {
+  color: #7F899E;
+}
+
+.fb__comment:-ms-input-placeholder {
+  color: #7F899E;
+}
+
+.fb__comment::-ms-input-placeholder {
+  color: #7F899E;
+}
+
+.fb__comment::placeholder {
+  color: #7F899E;
+}
+
+.fb__comment-count {
+  display: block;
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+  text-align: right;
+  color: #7F899E;
+  margin-top: 0.1rem;
+  margin-bottom: 1.6rem;
+}
+
+.fb__attach {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.fb__attach input {
+  position: absolute;
+  left: -9000px;
+}
+
+.fb__attach-block {
+  width: 80px;
+  height: 80px;
+  border-radius: .6rem;
+}
+
+.fb__attach-block:not(:last-child) {
+  margin-right: 0.8rem;
+}
+
+.fb__attach-btn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: #9AA2B7;
+  font-size: 3rem;
+  padding-bottom: 1px;
+  border: 0.1rem solid #EAECF0;
+  background: #F3F4F6;
+  cursor: pointer;
+  -webkit-transition: background-color .2s ease-in-out;
+  transition: background-color .2s ease-in-out;
+}
+
+.fb__attach-btn:hover {
+  background-color: #ecedf1;
+}
+
+.form-footer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  padding: 1.6rem;
+  position: relative;
+}
+
+.form-footer:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: .1rem;
+  background-color: #EAECF0;
 }

@@ -4,15 +4,86 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="css/minireset.min.css">
   <link rel="stylesheet" href="css/style.css">
+  <script src="script.js" defer></script>
   <title>Regul</title>
 </head>
 
 <body>
   <div class="main">
-    <button class="button">Отправить отзыв</button>
+    <button class="button">Оставить отзыв</button>
+  </div>
+  <div class="popup">
+    <form action="#" class="form">
+      <div class="form-header">
+        <h2 class="form-header__title">Мой отзыв</h2>
+        <span class="form-header__close">⨉</span>
+      </div>
+      <div class="fb">
+        <div class="fb__info">
+          <img class="fb__preview-img" src="img/work.jpg" alt="Превью фото">
+          <div class="fb__description">
+            <div class="fb__work-name">Фоточки в свадебном платьице</div>
+            <div class="fb__author-name">Алена Смирнова</div>
+          </div>
+        </div>
+        <div class="fb__rating">
+          <div class="stars__item">
+            <div class="stars__name">Скорость</div>
+            <ul class="list" data-total-value="0">
+              <li class="list__star" data-item-value="5">★</li>
+              <li class="list__star" data-item-value="4">★</li>
+              <li class="list__star" data-item-value="3">★</li>
+              <li class="list__star" data-item-value="2">★</li>
+              <li class="list__star" data-item-value="1">★</li>
+            </ul>
+          </div>
+          <div class="stars__item">
+            <div class="stars__name">Скорость отдачи видео</div>
+            <ul class="list" data-total-value="0">
+              <li class="list__star" data-item-value="5">★</li>
+              <li class="list__star" data-item-value="4">★</li>
+              <li class="list__star" data-item-value="3">★</li>
+              <li class="list__star" data-item-value="2">★</li>
+              <li class="list__star" data-item-value="1">★</li>
+            </ul>
+          </div>
+          <div class="stars__item">
+            <div class="stars__name">Качество</div>
+            <ul class="list" data-total-value="0">
+              <li class="list__star" data-item-value="5">★</li>
+              <li class="list__star" data-item-value="4">★</li>
+              <li class="list__star" data-item-value="3">★</li>
+              <li class="list__star" data-item-value="2">★</li>
+              <li class="list__star" data-item-value="1">★</li>
+            </ul>
+          </div>
+          <div class="stars__item">
+            <div class="stars__name">Пунктуальность</div>
+            <ul class="list" data-total-value="0">
+              <li class="list__star" data-item-value="5">★</li>
+              <li class="list__star" data-item-value="4">★</li>
+              <li class="list__star" data-item-value="3">★</li>
+              <li class="list__star" data-item-value="2">★</li>
+              <li class="list__star" data-item-value="1">★</li>
+            </ul>
+          </div>
+        </div>
+        <textarea class="fb__comment" name="comment" placeholder="Комментарий"></textarea>
+        <span class="fb__comment-count">12/500</span>
+        <div class="fb__attach">
+          <input type="file" id="attach">
+          <label class="fb__attach-btn fb__attach-block" for="attach">+</label>
+          <img class="fb__attach-block" src="img/img1.jpg"></img>
+          <img class="fb__attach-block" src="img/img2.jpg"></img>
+          <img class="fb__attach-block" src="img/img3.jpg"></img>
+          <img class="fb__attach-block" src="img/img4.jpg"></img>
+        </div>
+      </div>
+      <div class="form-footer">
+        <input type="submit" class="button" value="Отправить" />
+      </div>
+    </form>
   </div>
 </body>
 
