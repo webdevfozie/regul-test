@@ -4,15 +4,118 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="css/minireset.min.css">
   <link rel="stylesheet" href="css/style.css">
+  <script src="script.js" defer></script>
   <title>Regul</title>
 </head>
 
 <body>
   <div class="main">
-    <button class="button">Отправить отзыв</button>
+    <button type="button" class="button">Оставить отзыв</button>
+    <div class="message">
+      <span class="message__text">Спасибо, отзыв опубликован!</span>
+      <button type="button" class="message__close"></button>
+    </div>
+  </div>
+  <div class="popup">
+    <form action="#" class="form">
+
+      <!-- Компонент form__header -->
+      <div class="form-header">
+        <h2 class="form-header__title">Мой отзыв</h2>
+        <h2 class="form-header__title form-header__title--mobile">Новый отзыв</h2>
+        <span class="form-header__close">⨉</span>
+      </div>
+      <!-- Компонент form__header -->
+
+      <!-- Rating -->
+      <div class="fb">
+        <div class="fb__info">
+          <img class="fb__preview-img" src="img/work.jpg" alt="Превью фото">
+          <div class="fb__description">
+            <div class="fb__work-name">Фоточки в свадебном платьице</div>
+            <div class="fb__author-name">Алена Смирнова</div>
+          </div>
+        </div>
+        <div class="fb__rating">
+          <div class="stars__item">
+            <div class="stars__name">Скорость</div>
+            <ul class="list" data-total-value="0">
+              <li class="list__star" data-item-value="5">★</li>
+              <li class="list__star" data-item-value="4">★</li>
+              <li class="list__star" data-item-value="3">★</li>
+              <li class="list__star" data-item-value="2">★</li>
+              <li class="list__star" data-item-value="1">★</li>
+            </ul>
+          </div>
+          <div class="stars__item">
+            <div class="stars__name">Скорость отдачи видео</div>
+            <ul class="list" data-total-value="0">
+              <li class="list__star" data-item-value="5">★</li>
+              <li class="list__star" data-item-value="4">★</li>
+              <li class="list__star" data-item-value="3">★</li>
+              <li class="list__star" data-item-value="2">★</li>
+              <li class="list__star" data-item-value="1">★</li>
+            </ul>
+          </div>
+          <div class="stars__item">
+            <div class="stars__name">Качество</div>
+            <ul class="list" data-total-value="0">
+              <li class="list__star" data-item-value="5">★</li>
+              <li class="list__star" data-item-value="4">★</li>
+              <li class="list__star" data-item-value="3">★</li>
+              <li class="list__star" data-item-value="2">★</li>
+              <li class="list__star" data-item-value="1">★</li>
+            </ul>
+          </div>
+          <div class="stars__item">
+            <div class="stars__name">Пунктуальность</div>
+            <ul class="list" data-total-value="0">
+              <li class="list__star" data-item-value="5">★</li>
+              <li class="list__star" data-item-value="4">★</li>
+              <li class="list__star" data-item-value="3">★</li>
+              <li class="list__star" data-item-value="2">★</li>
+              <li class="list__star" data-item-value="1">★</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="form-footer">
+        <input type="submit" class="button" value="Отправить" />
+      </div>
+      <!-- Rating -->
+
+      <!-- Коментарий и фото -->
+      <div class="fb-comment">
+        <textarea class="fb-comment__text" name="comment" placeholder="Комментарий"></textarea>
+        <span class="fb-comment__count">12/500</span>
+        <div class="fb-comment__attach">
+          <input type="file" id="attach">
+          <label class="fb-comment__attach-btn fb-comment__attach-block" for="attach">+</label>
+          <div class="fb-comment__attach-block fb-comment__added-img">
+            <img src="img/img1.jpg"></img>
+            <button type="button" class="delete"></button>
+          </div>
+          <div class="fb-comment__attach-block fb-comment__added-img">
+            <img src="img/img2.jpg"></img>
+            <button type="button" class="delete"></button>
+          </div>
+          <div class="fb-comment__attach-block fb-comment__added-img">
+            <img src="img/img3.jpg"></img>
+            <button type="button" class="delete"></button>
+          </div>
+          <div class="fb-comment__attach-block fb-comment__added-img">
+            <img src="img/img4.jpg"></img>
+            <button type="button" class="delete"></button>
+          </div>
+        </div>
+      </div>
+      <div class="form-footer">
+        <input type="submit" class="button" value="Отправить" />
+      </div>
+      <!-- Коментарий и фото -->
+
+    </form>
   </div>
 </body>
 
