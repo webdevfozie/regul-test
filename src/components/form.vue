@@ -12,19 +12,20 @@
       </transition>
     </div>
     <transition name="fade">
-      <div class="popup" v-if="formIsOpen">
+      <div class="popup" :class="{ 'popup--step-two': formMobileStep == 2 }" v-if="formIsOpen">
         <form action="#" class="form">
 
           <!-- Компонент form__header -->
           <div class="form-header">
-            <h2 class="form-header__title">Мой отзыв</h2>
-            <h2 class="form-header__title form-header__title--mobile">Новый отзыв</h2>
+            <button v-if="formMobileStep == 2" @click.prevent="formMobileStep = 1" type="button" class="form-header__btn-prev"></button>
+            <h2 v-if="!isMobile" class="form-header__title">Мой отзыв</h2>
+            <h2 v-if="isMobile" class="form-header__title">Новый отзыв</h2>
             <span class="form-header__close" v-on:click="formIsOpen = false">⨉</span>
           </div>
           <!-- Компонент form__header -->
 
           <!-- Rating -->
-          <div class="fb">
+          <div v-if="formMobileStep == 1 || !isMobile" class="fb">
             <div class="fb__info">
               <img class="fb__preview-img" src="@/assets/img/work.jpg" alt="Превью фото">
               <div class="fb__description">
@@ -33,6 +34,7 @@
               </div>
             </div>
             <div class="fb__rating">
+              <!-- Отдельный компонент -->
               <div v-for="item in ratingList" :key="item.title" class="stars__item">
                 <div class="stars__name">{{ item.title }}</div>
                 <ul class="list" data-total-value="0" :data-value="item.name">
@@ -44,42 +46,51 @@
                 </ul>
               </div>
             </div>
+            <div v-if="isMobile" class="form-footer">
+              <button @click="formMobileStep = 2" type="button" class="button">Продолжить</button>
+            </div>
           </div>
           <!-- Rating -->
 
           <!-- Коментарий и фото -->
-          <div class="fb-comment">
+          <div v-if="formMobileStep == 2 || !isMobile" class="fb-comment">
             <label>
               <textarea class="fb-comment__text" name="comment" placeholder="Комментарий"></textarea>
             </label>
             <span class="fb-comment__count">12/500</span>
-            <div class="fb-comment__attach">
-              <input type="file" id="attach">
-              <label class="fb-comment__attach-btn fb-comment__attach-block" for="attach">+</label>
-              <div class="fb-comment__attach-block fb-comment__added-img">
-                <img src="@/assets/img/img1.jpg" alt="img1"/>
-                <button type="button" class="delete"></button>
+            <div class="fb__wrapper">
+              <div class="fb-comment__attach">
+                <input type="file" id="attach">
+                <label class="fb-comment__attach-btn fb-comment__attach-block" for="attach">+</label>
+                <div class="fb-comment__attach-block fb-comment__added-img">
+                  <img src="@/assets/img/img1.jpg" alt="img1"/>
+                  <button type="button" class="delete"></button>
+                </div>
+                <div class="fb-comment__attach-block fb-comment__added-img">
+                  <img src="@/assets/img/img2.jpg" alt="img2"/>
+                  <button type="button" class="delete"></button>
+                </div>
+                <div class="fb-comment__attach-block fb-comment__added-img">
+                  <img src="@/assets/img/img3.jpg" alt="img3"/>
+                  <button type="button" class="delete"></button>
+                </div>
+                <div class="fb-comment__attach-block fb-comment__added-img">
+                  <img src="@/assets/img/img4.jpg" alt="img4"/>
+                  <button type="button" class="delete"></button>
+                </div>
+                <div class="fb-comment__attach-block fb-comment__added-img">
+                  <img src="@/assets/img/img5.jpg" alt="img4"/>
+                  <button type="button" class="delete"></button>
+                </div>
               </div>
-              <div class="fb-comment__attach-block fb-comment__added-img">
-                <img src="@/assets/img/img2.jpg" alt="img2"/>
-                <button type="button" class="delete"></button>
-              </div>
-              <div class="fb-comment__attach-block fb-comment__added-img">
-                <img src="@/assets/img/img3.jpg" alt="img3"/>
-                <button type="button" class="delete"></button>
-              </div>
-              <div class="fb-comment__attach-block fb-comment__added-img">
-                <img src="@/assets/img/img4.jpg" alt="img4"/>
-                <button type="button" class="delete"></button>
+              <div class="form-footer">
+                <input type="submit" class="button" value="Отправить"
+                      v-on:click.prevent="
+                        formIsOpen = false;
+                        formIsSend = true"
+                />
               </div>
             </div>
-          </div>
-          <div class="form-footer">
-            <input type="submit" class="button" value="Отправить"
-                  v-on:click.prevent="
-                    formIsOpen = false;
-                    formIsSend = true"
-            />
           </div>
           <!-- Коментарий и фото -->
 
@@ -93,28 +104,25 @@
 export default {
   data() {
     return {
-      formIsOpen: true,
+      formIsOpen: false,
       formIsSend: false,
+      formMobileStep: 1,
       ratingList: [
         {
           title: "Скорость",
-          name: "Speed",
-          value: ""
+          name: "Speed"
         },
         {
           title: "Скорость отдачи видео",
-          name: "Return speed",
-          value: ""
+          name: "Return speed"
         },
         {
           title: "Качество",
-          name: "Quality",
-          value: ""
+          name: "Quality"
         },
         {
           title: "Пунктуальность",
-          name: "Punctuality",
-          value: ""
+          name: "Punctuality"
         }
       ]
     };
@@ -124,14 +132,20 @@ export default {
       let pressedStar = event.target;
       pressedStar.parentNode.dataset.totalValue = pressedStar.dataset.itemValue;
     }
+  },
+  computed: {
+    isMobile: () => {
+      if (window.innerWidth <= 500) {
+        return true;
+      }
+    }
   }
 };
 </script>
 
 <style lang="scss">
-@import "../assets/style/_minireset.scss";
 @import "../assets/style/_variables.scss";
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap");
+
 body,
 html {
   font-size: 10px;
@@ -233,7 +247,6 @@ body {
 // <form-header>
 .form-header {
   display: flex;
-  justify-content: space-between;
   padding: 0 0 1.6rem 0;
   position: relative;
 
@@ -246,6 +259,10 @@ body {
     height: 0.1rem;
     background-color: $secondary-color;
   }
+}
+
+.form-header__btn-prev {
+  display: none;
 }
 
 .form-header__title {
@@ -353,11 +370,11 @@ body {
 
 // Comment&Photo
 .fb-comment__text {
-  width: 100%;
+  width: 96.9%;
   height: 10rem;
   font-size: 1.6rem;
   line-height: 2.4rem;
-  padding: 1.2rem;
+  padding: 1.2rem 0 0 1.1rem;
   margin-top: 0.8rem;
   resize: none;
   background-color: #fafafa;
@@ -381,6 +398,7 @@ body {
 .fb-comment__attach {
   display: flex;
   margin-bottom: 2.4rem;
+  width: 96.9%;
 }
 
 .fb-comment__attach input {
@@ -389,14 +407,24 @@ body {
 }
 
 .fb-comment__attach-block {
-  width: 80px;
-  height: 80px;
+  min-width: 80px;
+  min-height: 80px;
+  max-width: 80px;
+  max-height: 80px;
+  border-radius: 0.6rem;
+}
+
+.fb-comment__attach-block img {
   border-radius: 0.6rem;
   overflow: hidden;
 }
 
 .fb-comment__attach-block:not(:last-child) {
   margin-right: 0.8rem;
+}
+
+.fb-comment__attach-block:last-child {
+  display: none;
 }
 
 .fb-comment__added-img {
@@ -464,7 +492,9 @@ body {
 @media screen and (max-width: 500px) {
   .form {
     padding: 1.6rem;
+    border-radius: 16px 16px 0 0;
   }
+
   .popup {
     padding-top: 5.6rem;
     background: rgba($color: #000, $alpha: 0.66);
@@ -480,14 +510,6 @@ body {
       border-radius: 0.4rem;
       background-color: #cfd3dd;
     }
-  }
-
-  .form-header__title {
-    display: none;
-  }
-
-  .form-header__title--mobile {
-    display: inline;
   }
 
   .fb {
@@ -514,11 +536,74 @@ body {
 
   .fb__rating {
     grid-template-areas: "stars__item";
+    margin-bottom: 0.7rem;
   }
 
   .list {
     max-width: 18rem;
     margin: 0 0 1.2rem -0.1rem;
+  }
+
+  // Изминение стилей при formMobileStep == 2
+  .popup--step-two {
+    padding: 0;
+    bottom: 0;
+
+    & .form {
+      border-radius: 0;
+
+      & .form-header {
+        &:after {
+          content: "";
+          position: absolute;
+          top: 3.9rem;
+          width: 120%;
+          height: 0.1rem;
+          background-color: $secondary-color;
+        }
+        & .form-header__title {
+          padding-left: 1.2rem;
+        }
+        & .form-header__btn-prev {
+          margin: 4px;
+          display: inline-block;
+          width: 1.6rem;
+          height: 1.6rem;
+          border: none;
+          background: transparent url("../assets/img/arrow-left.svg") center
+            no-repeat;
+        }
+      }
+      & .fb__wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      & .fb-comment__text {
+        width: 100%;
+        margin-top: 1.3rem;
+        padding-top: 1.6rem;
+        padding-left: 1.1rem;
+        height: 14.6rem;
+      }
+      & .fb-comment__count {
+        margin-right: 0;
+      }
+      & .fb-comment__attach {
+        width: 89%;
+        display: grid;
+        grid-template-columns: 8rem 8rem 8rem;
+        grid-template-rows: 8rem 8rem 8rem;
+        grid-gap: 8px;
+      }
+      & .fb-comment__attach-block:last-child {
+        display: block;
+      }
+      & .form-footer {
+        margin-top: 2.4rem;
+        position: relative;
+      }
+    }
   }
 }
 </style>
