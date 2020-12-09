@@ -35,22 +35,7 @@
             </div>
 
             <div class="fb__wrapper">
-              <div class="fb__rating">
-                <!-- Отдельный компонент -->
-                <div v-for="item in ratingList" :key="item.title" class="stars__item">
-                  <div class="stars__name">{{ item.title }}</div>
-                  <ul class="list" data-total-value="0" :data-value="item.name">
-                    <li class="list__star" data-item-value="5" @click="rate($event)">★</li>
-                    <li class="list__star" data-item-value="4" @click="rate($event)">★</li>
-                    <li class="list__star" data-item-value="3" @click="rate($event)">★</li>
-                    <li class="list__star" data-item-value="2" @click="rate($event)">★</li>
-                    <li class="list__star" data-item-value="1" @click="rate($event)">★</li>
-                  </ul>
-                </div>
-
-                <Rating />
-
-              </div>
+              <Rating />
               <div v-if="isMobile" class="form-footer">
                 <button @click="formMobileStep = 2" type="button" class="button">Продолжить</button>
               </div>
@@ -65,30 +50,8 @@
             </label>
             <span class="fb-comment__count">12/500</span>
             <div class="fb__wrapper">
-              <div class="fb-comment__attach">
-                <input type="file" id="attach">
-                <label class="fb-comment__attach-btn fb-comment__attach-block" for="attach">+</label>
-                <div class="fb-comment__attach-block fb-comment__added-img">
-                  <img src="@/assets/img/img1.jpg" alt="img1"/>
-                  <button type="button" class="delete"></button>
-                </div>
-                <div class="fb-comment__attach-block fb-comment__added-img">
-                  <img src="@/assets/img/img2.jpg" alt="img2"/>
-                  <button type="button" class="delete"></button>
-                </div>
-                <div class="fb-comment__attach-block fb-comment__added-img">
-                  <img src="@/assets/img/img3.jpg" alt="img3"/>
-                  <button type="button" class="delete"></button>
-                </div>
-                <div class="fb-comment__attach-block fb-comment__added-img">
-                  <img src="@/assets/img/img4.jpg" alt="img4"/>
-                  <button type="button" class="delete"></button>
-                </div>
-                <div class="fb-comment__attach-block fb-comment__added-img">
-                  <img src="@/assets/img/img5.jpg" alt="img4"/>
-                  <button type="button" class="delete"></button>
-                </div>
-              </div>
+              <Images/> 
+              <!-- Фото лежат в папке public для работы относительных путей в компоненте -->
               <div class="form-footer">
                 <input type="submit" class="button" value="Отправить"
                       v-on:click.prevent="
@@ -109,41 +72,19 @@
 
 <script>
 import Rating from "./rating.vue";
+import Images from "./images.vue";
 
 export default {
   components: {
-    Rating
+    Rating,
+    Images
   },
   data() {
     return {
       formIsOpen: true,
       formIsSend: false,
-      formMobileStep: 1,
-      ratingList: [
-        {
-          title: "Скорость",
-          name: "Speed"
-        },
-        {
-          title: "Скорость отдачи видео",
-          name: "Return speed"
-        },
-        {
-          title: "Качество",
-          name: "Quality"
-        },
-        {
-          title: "Пунктуальность",
-          name: "Punctuality"
-        }
-      ]
+      formMobileStep: 1
     };
-  },
-  methods: {
-    rate: event => {
-      let pressedStar = event.target;
-      pressedStar.parentNode.dataset.totalValue = pressedStar.dataset.itemValue;
-    }
   },
   computed: {
     isMobile: () => {
