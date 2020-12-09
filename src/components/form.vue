@@ -22,7 +22,7 @@
             <h2 v-if="isMobile" class="form-header__title">Новый отзыв</h2>
             <span class="form-header__close" v-on:click="formIsOpen = false">⨉</span>
           </div>
-          <!-- Компонент form__header -->
+          <!-- /Компонент form__header -->
 
           <!-- Rating -->
           <div v-if="formMobileStep == 1 || !isMobile" class="fb">
@@ -33,24 +33,30 @@
                 <div class="fb__author-name">Алена Смирнова</div>
               </div>
             </div>
-            <div class="fb__rating">
-              <!-- Отдельный компонент -->
-              <div v-for="item in ratingList" :key="item.title" class="stars__item">
-                <div class="stars__name">{{ item.title }}</div>
-                <ul class="list" data-total-value="0" :data-value="item.name">
-                  <li class="list__star" data-item-value="5" @click="rate($event)">★</li>
-                  <li class="list__star" data-item-value="4" @click="rate($event)">★</li>
-                  <li class="list__star" data-item-value="3" @click="rate($event)">★</li>
-                  <li class="list__star" data-item-value="2" @click="rate($event)">★</li>
-                  <li class="list__star" data-item-value="1" @click="rate($event)">★</li>
-                </ul>
+
+            <div class="fb__wrapper">
+              <div class="fb__rating">
+                <!-- Отдельный компонент -->
+                <div v-for="item in ratingList" :key="item.title" class="stars__item">
+                  <div class="stars__name">{{ item.title }}</div>
+                  <ul class="list" data-total-value="0" :data-value="item.name">
+                    <li class="list__star" data-item-value="5" @click="rate($event)">★</li>
+                    <li class="list__star" data-item-value="4" @click="rate($event)">★</li>
+                    <li class="list__star" data-item-value="3" @click="rate($event)">★</li>
+                    <li class="list__star" data-item-value="2" @click="rate($event)">★</li>
+                    <li class="list__star" data-item-value="1" @click="rate($event)">★</li>
+                  </ul>
+                </div>
+
+                <Rating />
+
+              </div>
+              <div v-if="isMobile" class="form-footer">
+                <button @click="formMobileStep = 2" type="button" class="button">Продолжить</button>
               </div>
             </div>
-            <div v-if="isMobile" class="form-footer">
-              <button @click="formMobileStep = 2" type="button" class="button">Продолжить</button>
-            </div>
           </div>
-          <!-- Rating -->
+          <!-- /Rating -->
 
           <!-- Коментарий и фото -->
           <div v-if="formMobileStep == 2 || !isMobile" class="fb-comment">
@@ -87,12 +93,13 @@
                 <input type="submit" class="button" value="Отправить"
                       v-on:click.prevent="
                         formIsOpen = false;
-                        formIsSend = true"
+                        formIsSend = true;
+                        formMobileStep = 1"
                 />
               </div>
             </div>
           </div>
-          <!-- Коментарий и фото -->
+          <!-- /Коментарий и фото -->
 
         </form>
       </div>
@@ -101,10 +108,15 @@
 </template>
 
 <script>
+import Rating from "./rating.vue";
+
 export default {
+  components: {
+    Rating
+  },
   data() {
     return {
-      formIsOpen: false,
+      formIsOpen: true,
       formIsSend: false,
       formMobileStep: 1,
       ratingList: [
@@ -184,11 +196,11 @@ body {
   max-width: 56rem;
   background: #fff;
   border-radius: 1.6rem;
-  overflow: hidden;
   margin: 0 auto;
   align-items: center;
   z-index: 3;
   padding: 1.6rem 1.6rem 1.6rem 3.2rem;
+  overflow: hidden;
 }
 
 // button
@@ -514,6 +526,14 @@ body {
 
   .fb {
     padding: 0;
+    // height: 550px;
+  }
+
+  .fb__wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 80%;
   }
 
   .fb__info {
@@ -551,58 +571,55 @@ body {
 
     & .form {
       border-radius: 0;
-
-      & .form-header {
-        &:after {
-          content: "";
-          position: absolute;
-          top: 3.9rem;
-          width: 120%;
-          height: 0.1rem;
-          background-color: $secondary-color;
-        }
-        & .form-header__title {
-          padding-left: 1.2rem;
-        }
-        & .form-header__btn-prev {
-          margin: 4px;
-          display: inline-block;
-          width: 1.6rem;
-          height: 1.6rem;
-          border: none;
-          background: transparent url("../assets/img/arrow-left.svg") center
-            no-repeat;
-        }
+    }
+    & .form-header {
+      &:after {
+        content: "";
+        position: absolute;
+        top: 3.9rem;
+        width: 120%;
+        height: 0.1rem;
+        background-color: $secondary-color;
       }
-      & .fb__wrapper {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
-      & .fb-comment__text {
-        width: 100%;
-        margin-top: 1.3rem;
-        padding-top: 1.6rem;
-        padding-left: 1.1rem;
-        height: 14.6rem;
-      }
-      & .fb-comment__count {
-        margin-right: 0;
-      }
-      & .fb-comment__attach {
-        width: 89%;
-        display: grid;
-        grid-template-columns: 8rem 8rem 8rem;
-        grid-template-rows: 8rem 8rem 8rem;
-        grid-gap: 8px;
-      }
-      & .fb-comment__attach-block:last-child {
-        display: block;
-      }
-      & .form-footer {
-        margin-top: 2.4rem;
-        position: relative;
-      }
+    }
+    & .form-header__title {
+      padding-left: 1.2rem;
+    }
+    & .form-header__btn-prev {
+      margin: 4px;
+      display: inline-block;
+      width: 1.6rem;
+      height: 1.6rem;
+      border: none;
+      background: transparent url("../assets/img/arrow-left.svg") center
+        no-repeat;
+    }
+    & .fb-comment {
+      display: flex;
+      flex-direction: column;
+      height: calc(100% - 4rem);
+    }
+    & .fb-comment__text {
+      width: 100%;
+      margin-top: 1.3rem;
+      padding-top: 1.6rem;
+      padding-left: 1.1rem;
+      height: 14.6rem;
+    }
+    & .fb-comment__count {
+      margin-right: 0;
+    }
+    & .fb-comment__attach {
+      display: grid;
+      grid-template-columns: 8rem 8rem 8rem;
+      grid-template-rows: 8rem 8rem 8rem;
+      grid-gap: 8px;
+    }
+    & .fb-comment__attach-block:last-child {
+      display: block;
+    }
+    & .form-footer {
+      margin-top: 2.4rem;
     }
   }
 }
