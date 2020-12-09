@@ -1,73 +1,61 @@
 <template>
-  <div>
-    <div class="main">
-      <transition name="fade">
-        <button type="button" class="button" v-if="!formIsSend" v-on:click="formIsOpen = true">Оставить отзыв</button>
-      </transition>
-      <transition name="fade">
-        <div class="message" v-if="formIsSend">
-          <span class="message__text">Спасибо, отзыв опубликован!</span>
-          <button type="button" class="message__close" @click="formIsSend = false"></button>
+  <transition name="fade">
+    <div class="popup" :class="{ 'popup--step-two': formMobileStep == 2 }">
+      <form action="#" class="form">
+
+        <!-- form__header -->
+        <div class="form-header">
+          <button v-if="formMobileStep == 2" @click.prevent="formMobileStep = 1" type="button" class="form-header__btn-prev"></button>
+          <h2 v-if="!isMobile" class="form-header__title">Мой отзыв</h2>
+          <h2 v-if="isMobile" class="form-header__title">Новый отзыв</h2>
+          <span class="form-header__close" v-on:click="$emit('close-form')">⨉</span>
         </div>
-      </transition>
+        <!-- form__header -->
+
+        <!-- Rating -->
+        <div v-if="formMobileStep == 1 || !isMobile" class="fb">
+          <div class="fb__info">
+            <img class="fb__preview-img" src="@/assets/img/work.jpg" alt="Превью фото">
+            <div class="fb__description">
+              <div class="fb__work-name">Фоточки в свадебном платьице</div>
+              <div class="fb__author-name">Алена Смирнова</div>
+            </div>
+          </div>
+          <div class="fb__wrapper">
+            <Rating v-bind:ratingList="ratingList" />
+            <div v-if="isMobile" class="form-footer">
+              <button @click="formMobileStep = 2" type="button" class="button">Продолжить</button>
+            </div>
+          </div>
+        </div>
+        <!-- /Rating -->
+
+        <!-- Коментарий и фото -->
+        <div v-if="formMobileStep == 2 || !isMobile" class="fb-comment">
+          <label>
+            <textarea 
+              class="fb-comment__text" 
+              name="comment" 
+              placeholder="Комментарий"
+              v-model="formComment"
+            ></textarea>
+          </label>
+          <span class="fb-comment__count">{{ formComment.length }}/500</span>
+          <div class="fb__wrapper">
+            <Images/> 
+            <!-- Фото лежат в папке public для работы относительных путей в компоненте -->
+            <div class="form-footer">
+              <input type="submit" class="button" value="Отправить"
+                v-on:click.prevent="submit()"
+              />
+            </div>
+          </div>
+        </div>
+        <!-- /Коментарий и фото -->
+
+      </form>
     </div>
-    <transition name="fade">
-      <div class="popup" :class="{ 'popup--step-two': formMobileStep == 2 }" v-if="formIsOpen">
-        <form action="#" class="form">
-
-          <!-- Компонент form__header -->
-          <div class="form-header">
-            <button v-if="formMobileStep == 2" @click.prevent="formMobileStep = 1" type="button" class="form-header__btn-prev"></button>
-            <h2 v-if="!isMobile" class="form-header__title">Мой отзыв</h2>
-            <h2 v-if="isMobile" class="form-header__title">Новый отзыв</h2>
-            <span class="form-header__close" v-on:click="formIsOpen = false">⨉</span>
-          </div>
-          <!-- /Компонент form__header -->
-
-          <!-- Rating -->
-          <div v-if="formMobileStep == 1 || !isMobile" class="fb">
-            <div class="fb__info">
-              <img class="fb__preview-img" src="@/assets/img/work.jpg" alt="Превью фото">
-              <div class="fb__description">
-                <div class="fb__work-name">Фоточки в свадебном платьице</div>
-                <div class="fb__author-name">Алена Смирнова</div>
-              </div>
-            </div>
-
-            <div class="fb__wrapper">
-              <Rating />
-              <div v-if="isMobile" class="form-footer">
-                <button @click="formMobileStep = 2" type="button" class="button">Продолжить</button>
-              </div>
-            </div>
-          </div>
-          <!-- /Rating -->
-
-          <!-- Коментарий и фото -->
-          <div v-if="formMobileStep == 2 || !isMobile" class="fb-comment">
-            <label>
-              <textarea class="fb-comment__text" name="comment" placeholder="Комментарий"></textarea>
-            </label>
-            <span class="fb-comment__count">12/500</span>
-            <div class="fb__wrapper">
-              <Images/> 
-              <!-- Фото лежат в папке public для работы относительных путей в компоненте -->
-              <div class="form-footer">
-                <input type="submit" class="button" value="Отправить"
-                      v-on:click.prevent="
-                        formIsOpen = false;
-                        formIsSend = true;
-                        formMobileStep = 1"
-                />
-              </div>
-            </div>
-          </div>
-          <!-- /Коментарий и фото -->
-
-        </form>
-      </div>
-    </transition>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -81,9 +69,30 @@ export default {
   },
   data() {
     return {
-      formIsOpen: true,
-      formIsSend: false,
-      formMobileStep: 1
+      formMobileStep: 1,
+      formComment: "",
+      ratingList: [
+        {
+          title: "Скорость",
+          name: "Speed",
+          value: ""
+        },
+        {
+          title: "Скорость отдачи видео",
+          name: "Return speed",
+          value: ""
+        },
+        {
+          title: "Качество",
+          name: "Quality",
+          value: ""
+        },
+        {
+          title: "Пунктуальность",
+          name: "Punctuality",
+          value: ""
+        }
+      ]
     };
   },
   computed: {
@@ -92,6 +101,37 @@ export default {
         return true;
       }
     }
+  },
+  methods: {
+    submit() {
+      // Валидация
+      this.ratingList.forEach(item => {
+        if (!item.value) {
+          alert(`Пожалуйста поставьте оценку ${item.title}!`);
+          return;
+        }
+      });
+
+      if (this.formComment.length > 500) {
+        alert("Комментарий больше 500 символов!");
+        return;
+      } else if (this.formComment.length < 1) {
+        alert("Комментарий обязателен к заполнению!");
+        return;
+      }
+
+      this.$emit("close-form");
+      this.$emit("send-form");
+      this.formMobileStep = 1;
+      console.log(
+        `Оценки: 
+        ${this.ratingList[0].title}: ${this.ratingList[0].value}, 
+        ${this.ratingList[1].title}: ${this.ratingList[1].value}, 
+        ${this.ratingList[2].title}: ${this.ratingList[2].value}, 
+        ${this.ratingList[3].title}: ${this.ratingList[3].value}, 
+        Комментарий пользователя: ${this.formComment}`
+      );
+    }
   }
 };
 </script>
@@ -99,35 +139,12 @@ export default {
 <style lang="scss">
 @import "../assets/style/_variables.scss";
 
-body,
-html {
-  font-size: 10px;
-}
-
-body {
-  position: relative;
-}
-
-* {
-  font-family: "Montserrat", sans-serif;
-}
-
-.main {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 1;
-}
-
 // Popup
 .popup {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
   z-index: 2;
   padding-top: 10vh;
   background: $bg-color;
@@ -142,59 +159,6 @@ body {
   z-index: 3;
   padding: 1.6rem 1.6rem 1.6rem 3.2rem;
   overflow: hidden;
-}
-
-// button
-.button {
-  color: #fff;
-  background-color: $accent-color;
-  font-size: 1.4rem;
-  font-weight: 600;
-  line-height: 2rem;
-  padding: 0.8rem 1.2rem;
-  border: none;
-  border-radius: 0.6rem;
-  cursor: pointer;
-  transition: 0.2s ease-in-out;
-
-  &:hover {
-    background-color: darken($accent-color, 10%);
-  }
-
-  &:active {
-    opacity: 0.8;
-  }
-}
-
-// Message
-.message {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 3rem;
-  background: #15a758;
-  border-radius: 0.6rem;
-  box-shadow: 0 2px 24px 0 rgba(0, 0, 0, 0.08);
-}
-
-.message__text {
-  font-size: 1.4rem;
-  line-height: 2rem;
-  font-weight: 500;
-  padding: 0.8rem 1.4rem 0.8rem 1.2rem;
-  color: #fff;
-}
-
-.message__close {
-  font-weight: 600;
-  cursor: pointer;
-  width: 2rem;
-  height: 2rem;
-  margin: 0 1.4rem 0 0;
-  border-radius: 50%;
-  border: none;
-  background: rgba(255, 255, 255, 0.4) url("../assets/img/close.svg") center
-    no-repeat;
 }
 
 // <form-header>
@@ -275,155 +239,6 @@ body {
   color: $secondary-text-color;
 }
 
-// Rating
-.fb__rating {
-  display: grid;
-  grid-template-areas: "stars__item stars__item";
-}
-
-.stars__name {
-  font-size: 1.4rem;
-  font-weight: 500;
-  line-height: 2rem;
-  color: $main-text-color;
-}
-
-.list {
-  display: flex;
-  justify-content: space-around;
-  flex-direction: row-reverse;
-  max-width: 17rem;
-  margin: 0 -4.5rem 1.6rem -0.1rem;
-}
-
-.list__star {
-  font-size: 35px;
-  color: $secondary-color;
-  cursor: pointer;
-  margin: -3px 0 0 0;
-  transition: color 0.2s ease-in-out;
-}
-
-.list__star:hover,
-.list__star:hover ~ .list__star {
-  color: $accent-color;
-}
-
-.list[data-total-value="1"] .list__star:nth-child(n + 5),
-.list[data-total-value="2"] .list__star:nth-child(n + 4),
-.list[data-total-value="3"] .list__star:nth-child(n + 3),
-.list[data-total-value="4"] .list__star:nth-child(n + 2),
-.list[data-total-value="5"] .list__star:nth-child(n + 1) {
-  color: $accent-color;
-}
-
-.list__star--checked {
-  color: $accent-color;
-}
-
-// Comment&Photo
-.fb-comment__text {
-  width: 96.9%;
-  height: 10rem;
-  font-size: 1.6rem;
-  line-height: 2.4rem;
-  padding: 1.2rem 0 0 1.1rem;
-  margin-top: 0.8rem;
-  resize: none;
-  background-color: #fafafa;
-  border: 0.1rem solid #eaecf0;
-  border-radius: 0.6rem;
-
-  &::placeholder {
-    color: #7f899e;
-  }
-}
-
-.fb-comment__count {
-  display: block;
-  font-size: 1.2rem;
-  line-height: 1.6rem;
-  text-align: right;
-  color: #7f899e;
-  margin: 0.1rem 1.6rem 1.6rem 0;
-}
-
-.fb-comment__attach {
-  display: flex;
-  margin-bottom: 2.4rem;
-  width: 96.9%;
-}
-
-.fb-comment__attach input {
-  position: absolute;
-  left: -9000px;
-}
-
-.fb-comment__attach-block {
-  min-width: 80px;
-  min-height: 80px;
-  max-width: 80px;
-  max-height: 80px;
-  border-radius: 0.6rem;
-}
-
-.fb-comment__attach-block img {
-  border-radius: 0.6rem;
-  overflow: hidden;
-}
-
-.fb-comment__attach-block:not(:last-child) {
-  margin-right: 0.8rem;
-}
-
-.fb-comment__attach-block:last-child {
-  display: none;
-}
-
-.fb-comment__added-img {
-  position: relative;
-
-  &:hover .delete {
-    visibility: visible;
-    opacity: 1;
-  }
-}
-
-.delete {
-  visibility: hidden;
-  opacity: 0;
-  padding: 0;
-  border: none;
-  position: absolute;
-  width: 3.2rem;
-  height: 3.2rem;
-  background: #000;
-  top: 0.8rem;
-  right: 0.8rem;
-  cursor: pointer;
-  background: rgba(0, 0, 0, 0.6) url("../assets/img/delete.svg") center center
-    no-repeat;
-  border-radius: 4px;
-  transition: opacity 0.2s ease-in-out;
-}
-
-.fb-comment__attach-btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #9aa2b7;
-  font-size: 3rem;
-  padding-bottom: 1px;
-  border: 0.1rem solid $secondary-color;
-  background: #f3f4f6;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
-
-  &:hover {
-    background-color: darken(#f3f4f6, 2.5%);
-  }
-}
-
 // form-footer
 .form-footer {
   display: flex;
@@ -443,14 +258,19 @@ body {
 }
 
 @media screen and (max-width: 500px) {
-  .form {
-    padding: 1.6rem;
-    border-radius: 16px 16px 0 0;
+  .popup {
+    display: flex;
+    align-items: flex-end;
+    padding-top: 0;
+    background: rgba($color: #000, $alpha: 0.66);
+    min-height: 100%;
   }
 
-  .popup {
-    padding-top: 5.6rem;
-    background: rgba($color: #000, $alpha: 0.66);
+  .form {
+    width: 100%;
+    overflow: hidden;
+    padding: 1.6rem;
+    border-radius: 16px 16px 0 0;
   }
 
   .form-header {
@@ -467,7 +287,6 @@ body {
 
   .fb {
     padding: 0;
-    // height: 550px;
   }
 
   .fb__wrapper {
@@ -495,20 +314,10 @@ body {
     margin-bottom: 0.4rem;
   }
 
-  .fb__rating {
-    grid-template-areas: "stars__item";
-    margin-bottom: 0.7rem;
-  }
-
-  .list {
-    max-width: 18rem;
-    margin: 0 0 1.2rem -0.1rem;
-  }
-
   // Изминение стилей при formMobileStep == 2
   .popup--step-two {
     padding: 0;
-    bottom: 0;
+    // bottom: 0;
 
     & .form {
       border-radius: 0;
@@ -534,30 +343,6 @@ body {
       border: none;
       background: transparent url("../assets/img/arrow-left.svg") center
         no-repeat;
-    }
-    & .fb-comment {
-      display: flex;
-      flex-direction: column;
-      height: calc(100% - 4rem);
-    }
-    & .fb-comment__text {
-      width: 100%;
-      margin-top: 1.3rem;
-      padding-top: 1.6rem;
-      padding-left: 1.1rem;
-      height: 14.6rem;
-    }
-    & .fb-comment__count {
-      margin-right: 0;
-    }
-    & .fb-comment__attach {
-      display: grid;
-      grid-template-columns: 8rem 8rem 8rem;
-      grid-template-rows: 8rem 8rem 8rem;
-      grid-gap: 8px;
-    }
-    & .fb-comment__attach-block:last-child {
-      display: block;
     }
     & .form-footer {
       margin-top: 2.4rem;
